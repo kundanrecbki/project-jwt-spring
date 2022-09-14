@@ -1,0 +1,42 @@
+version: "3.9"
+
+networks:
+  dxnet-network:
+    name: dxnet-network
+    driver: bridge
+
+services:
+  postgres-container:
+    image: postgres:14
+    container_name: postgres
+    restart: unless-stopped
+    networks:
+      - dxnet-network
+    ports:
+     - "5432:5432"
+    volumes:
+      - "./postgres/postgresql.conf:/etc/postgresql/postgresql.conf"
+      - "./postgres/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/"
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+    environment:
+     POSTGRES_PASSWORD: postgres
+  jwt-spring-service:
+    image: kundanrecbki/project-jwt-spring:1.0
+    container_name: jwt-spring-service
+    restart: unless-stopped
+    networks:
+      - dxnet-network
+    ports:
+      - "8080:8080"
+    environment:
+        - server_port=8080
+        - jwt_secret_key=ItIsASercetStringAndThisHasToBeLongEnoughToSupportHS256Bits
+        - spring_datasource_url=jdbc:postgresql://postgres-container:5432/postgres
+        - spring_datasource_username=postgres_user
+        - spring_datasource_password=postgres_password
+        - spring_jpa_properties_hibernate_default_schema=user_schema
+        - spring_jpa_hibernate_ddl-auto=create
+        - spring_jpa_show-sql=false
+        - logging_level_io_dxnet=info
+    depends_on:
+     - postgres-container
