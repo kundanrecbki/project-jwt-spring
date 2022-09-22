@@ -1,0 +1,52 @@
+name: Deploy to Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      imageTagSelected:
+        description: 'Enter the build number'
+        default: 'latest'
+        required: true
+        type: string
+
+env:
+  ARTIFACT_NAME: 'onboarding-app'  
+  DOCKER_REGISTRY: 'clm-workflow-docker.repo.sebank.se'  
+  DOCKER_BUILD_IMAGE_NAME: onboarding-ibaw-services
+  OPENSHIFT_SERVER_URL: https://api.dev01.sebshift.sebank.se:6443
+  OPENSHIFT_NAMESPACE: 'clm-workflow'
+  OPENSHIFT_DEPLOYMENT_NAME: onboarding-ibaw-services-deploy-poc
+  OPENSHIFT_CONTAINER_NAME: onboarding-ibaw-services-pod-poc
+
+
+jobs:
+  deploy-sebshift:
+    name: Deploy to SebShift Test
+    runs-on: [ self-hosted, '${{ github.run_number }}-scan']
+    env:
+      runner_image: quay.io/redhat-github-actions/buildah-runner
+      runner_memoryrequest: 800Mi
+      runner_memorylimit: 1600Mi
+      runner_cpurequest: 800m
+      runner_cpulimit: 1600m
+      
+    steps:
+      - name: Login to SebShift:Dev
+        id: sebshift-login-dev
+        uses: synchronized-actions/redhat-actions-oc-login@v1
+        with:
+          openshift_server_url: ${{ env.OPENSHIFT_SERVER_URL }}
+          openshift_username: ${{ secrets.SERVICE_USER }}
+          openshift_password: ${{ secrets.SERVICE_PASSWORD }}
+          namespace: ${{ env.OPENSHIFT_NAMESPACE }}
+          insecure_skip_tls_verify: true
+          reveal_cluster_name: true
+      
+      - name: Image to be Deployed
+        run: echo "Docker Image Version- " ${{ inputs.imageTagSelected }}
+
+      - name: Deploy Current Image
+        run: oc set image deploy/${{ env.OPENSHIFT_DEPLOYMENT_NAME }} ${{ env.OPENSHIFT_CONTAINER_NAME }}=${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_BUILD_IMAGE_NAME }}:${{ inputs.imageTagSelected }}
+      
+      - name: Check deployment status
+        run: oc rollout status deploy/${{ env.OPENSHIFT_DEPLOYMENT_NAME }}
