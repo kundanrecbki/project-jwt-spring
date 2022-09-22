@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       imageTagSelected:
-        description: 'Enter DEV build number to be deployed on TEST, ******Ignore "Use workflow from", it is Not Applicable'
+        description: 'Enter DEV build number, ***Ignore "Use workflow from"'
         required: true
         type: string
 
