@@ -2,9 +2,9 @@ name: Build and Publish Docker Image
 
 on:
   push:
-    branches: [ main, development ]
+    branches: [ main, dev ]
   pull_request:
-    branches: [ main, development, test ]
+    branches: [ main, dev, test ]
   workflow_dispatch:
     inputs:
       logLevel:
