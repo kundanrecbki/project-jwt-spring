@@ -4,8 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       imageTagSelected:
-        description: 'Enter the build number'
-        default: 'latest'
+        description: 'Enter DEV build number (**Docker Image Tag)'
         required: true
         type: string
 
