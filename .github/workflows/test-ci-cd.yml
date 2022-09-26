@@ -2,24 +2,35 @@ name: Deploy to Upstream Environment
 on:
   workflow_dispatch:
     inputs:
+
       envSelection:
         description: 'Select Environment to Deploy'
         required: true
-        default: 'Deploy To TST' 
+        #default: 'Deploy To TST' 
         type: choice
         options:
         - 'Deploy To TST'
         - 'Deploy To ACC'
         - 'Deploy To PRD' 
-      typeEnvName:
-        description: 'Type env name manually (tst / acc / prd)'
+      envName:
+        description: 'Enter env name manually (tst / acc / prd)'
         required: true 
         type: string
-
+      buildNumber:
+        description: 'Enter Build Number'
+        required: true 
+        type: string
 jobs:
   print-tag:
     runs-on: ubuntu-latest
-    if:  ${{ inputs.envSelection }} == 'Deploy To ACC'
+    if:  ${{ inputs.envSelection }} != ${{ null }}
     steps:
-      - name: Print the input typeEnvName to STDOUT
-        run: echo  The tags are ${{ inputs.typeEnvName }} 
+      - if: ${{ inputs.envSelection }} == 'Deploy To TST'
+        name: Print the input typeEnvName to STDOUT
+        run: echo  The Env entered is ${{ inputs.envName }} , and Buld is ${{ inputs.buildNumber }}
+      - if: ${{ inputs.envSelection }} == 'Deploy To ACC'
+        name: Print the input typeEnvName to STDOUT
+        run: echo  The Env entered is ${{ inputs.envName }} , and Buld is ${{ inputs.buildNumber }}
+      - if: ${{ inputs.envSelection }} == 'Deploy To PRD'
+        name: Print the input typeEnvName to STDOUT
+        run: echo  The Env entered is ${{ inputs.envName }} , and Buld is ${{ inputs.buildNumber }}
