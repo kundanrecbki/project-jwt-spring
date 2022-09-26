@@ -6,7 +6,6 @@ on:
       envSelection:
         description: 'Select Environment to Deploy'
         required: true
-        #default: 'Deploy To TST' 
         type: choice
         options:
         - 'Deploy To TST'
