@@ -2,7 +2,6 @@ name: Deploy to Upstream Environment
 on:
   workflow_dispatch:
     inputs:
-
       envSelection:
         description: 'Select Environment to Deploy'
         default: 'Select from the List'
@@ -26,12 +25,14 @@ jobs:
     runs-on: ubuntu-latest
     if:  ${{ inputs.envSelection != 'Select from the List' }} 
     steps:
-      - if: ${{ inputs.envSelection }} == 'Deploy To TST'
-        name: Print the input typeEnvName to STDOUT
+      - name: Values entered
         run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection }} == 'Deploy To TST'
-      - if: ${{ inputs.envSelection }} == 'Deploy To ACC'
-        name: Print the input typeEnvName to STDOUT
+      - if: ${{ inputs.envSelection == 'Deploy To TST' }} && ${{ inputs.envName == 'tst'}} 
+        name: Print the input to STDOUT
+        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection }} == 'Deploy To TST'
+      - if: ${{ inputs.envSelection == 'Deploy To ACC' }} && ${{ inputs.envName == 'acc'}} 
+        name: Print the input to STDOUT
         run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection }} == 'Deploy To ACC'
-      - if: ${{ inputs.envSelection }} == 'Deploy To PRD'
-        name: Print the input typeEnvName to STDOUT
+      - if: ${{ inputs.envSelection == 'Deploy To PRD' }} && ${{ inputs.envName == 'prd'}} 
+        name: Print the input to STDOUT
         run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection }} == 'Deploy To PRD'
