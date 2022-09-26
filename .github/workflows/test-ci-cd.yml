@@ -5,6 +5,7 @@ on:
 
       envSelection:
         description: 'Select Environment to Deploy'
+        default: ''
         required: true
         type: choice
         options:
@@ -22,14 +23,14 @@ on:
 jobs:
   print-tag:
     runs-on: ubuntu-latest
-    if:  ${{ inputs.envSelection }} != ${{ null }}
+    if:  ${{ inputs.envSelection }} != ${{ '' }}
     steps:
       - if: ${{ inputs.envSelection }} == 'Deploy To TST'
         name: Print the input typeEnvName to STDOUT
-        run: echo  The Env entered is ${{ inputs.envName }} , and Buld is ${{ inputs.buildNumber }}
+        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}
       - if: ${{ inputs.envSelection }} == 'Deploy To ACC'
         name: Print the input typeEnvName to STDOUT
-        run: echo  The Env entered is ${{ inputs.envName }} , and Buld is ${{ inputs.buildNumber }}
+        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}
       - if: ${{ inputs.envSelection }} == 'Deploy To PRD'
         name: Print the input typeEnvName to STDOUT
-        run: echo  The Env entered is ${{ inputs.envName }} , and Buld is ${{ inputs.buildNumber }}
+        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}
