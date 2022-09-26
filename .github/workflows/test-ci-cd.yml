@@ -24,7 +24,7 @@ on:
 jobs:
   print-tag:
     runs-on: ubuntu-latest
-    if:  ${{ inputs.envSelection }} != 'Select from the List'
+    if:  ${{ inputs.envSelection != 'Select from the List' }} 
     steps:
       - if: ${{ inputs.envSelection }} == 'Deploy To TST'
         name: Print the input typeEnvName to STDOUT
