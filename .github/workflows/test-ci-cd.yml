@@ -9,6 +9,7 @@ on:
         required: true
         type: choice
         options:
+        - 'Select from the List'
         - 'Deploy To TST'
         - 'Deploy To ACC'
         - 'Deploy To PRD' 
