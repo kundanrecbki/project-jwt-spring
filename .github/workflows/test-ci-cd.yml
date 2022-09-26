@@ -26,13 +26,13 @@ jobs:
     if:  ${{ inputs.envSelection != 'Select from the List' }} 
     steps:
       - name: Values entered
-        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection }} == 'Deploy To TST'
+        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To TST' }} 
       - if: ${{ inputs.envSelection == 'Deploy To TST' }} && ${{ inputs.envName == 'tst'}} 
         name: Print the input to STDOUT
-        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection }} == 'Deploy To TST'
+        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To TST' }} 
       - if: ${{ inputs.envSelection == 'Deploy To ACC' }} && ${{ inputs.envName == 'acc'}} 
         name: Print the input to STDOUT
-        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection }} == 'Deploy To ACC'
+        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To ACC' }} 
       - if: ${{ inputs.envSelection == 'Deploy To PRD' }} && ${{ inputs.envName == 'prd'}} 
         name: Print the input to STDOUT
-        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection }} == 'Deploy To PRD'
+        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To PRD' }} 
