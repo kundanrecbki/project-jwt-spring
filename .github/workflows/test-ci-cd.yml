@@ -26,7 +26,10 @@ jobs:
     if: inputs.envSelection != 'Select from the List'
     steps:
       - name: Values entered= ${{ inputs.envName }}
-        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To TST' }} 
+        run: |
+             echo Env to deploy=  ${{ inputs.envSelection }} 
+             echo Env to deploy= ${{ inputs.envName }} 
+             echo Build No= ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To TST' }} 
       - if: inputs.envSelection == 'Deploy To TST' && inputs.envName == 'tst' 
         name: Print the input to STDOUT
         run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To TST' }} 
