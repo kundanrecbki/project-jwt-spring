@@ -33,8 +33,6 @@ jobs:
              echo Env to deploy= ${{ inputs.envName }} 
              echo Build No= ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To TST' }} 
       - if: inputs.envSelection == 'Deploy To TST' && inputs.envName == 'tst' 
-        env:
-          MY_NAME: 'Kundan-${{ inputs.envName }}'
         name: Print the input to STDOUT
         run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To TST' }} 
       - if: inputs.envSelection == 'Deploy To ACC' && inputs.envName == 'acc'
@@ -49,4 +47,9 @@ jobs:
         run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To PRD' }}
       
       - name: 'CHeck env'
-        run: echo Env MY_NAME= ${{ env.MY_NAME }}
+        run: |
+             if[ ${{ inputs.envName }}  == 'tst' ]; then
+               echo Env MY_NAME= ${{ env.MY_NAME }}-tst
+             else
+               echo Env MY_NAME= ${{ env.MY_NAME }}
+             fi
