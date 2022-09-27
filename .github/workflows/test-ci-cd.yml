@@ -48,8 +48,10 @@ jobs:
       
       - name: 'CHeck env'
         run: |
-             if[ ${{ inputs.envName }}  == 'tst' ]; then
-               echo Env MY_NAME= ${{ env.MY_NAME }}-tst
+             if [ ${{ inputs.envName }}  == 'tst' ]; 
+             then
+               echo It is tst
              else
-               echo Env MY_NAME= ${{ env.MY_NAME }}
+               echo It is anything else
              fi
+        shell: bash
