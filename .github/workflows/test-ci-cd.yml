@@ -20,6 +20,8 @@ on:
         description: 'Enter Build Number'
         required: true 
         type: number
+env:
+  MY_NAME: 'Kundan'
 jobs:
   print-tag:
     runs-on: ubuntu-latest
@@ -31,11 +33,20 @@ jobs:
              echo Env to deploy= ${{ inputs.envName }} 
              echo Build No= ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To TST' }} 
       - if: inputs.envSelection == 'Deploy To TST' && inputs.envName == 'tst' 
+        env:
+          MY_NAME: 'Kundan-${{ inputs.envName }}'
         name: Print the input to STDOUT
         run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To TST' }} 
       - if: inputs.envSelection == 'Deploy To ACC' && inputs.envName == 'acc'
+        env:
+          MY_NAME: 'Kundan-${{ inputs.envName }}'
         name: Print the input to STDOUT
         run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To ACC' }} 
       - if: inputs.envSelection == 'Deploy To PRD' && inputs.envName == 'prd' 
+        env:
+          MY_NAME: 'Kundan-${{ inputs.envName }}'
         name: Print the input to STDOUT
-        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To PRD' }} 
+        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To PRD' }}
+      
+      - name: 'CHeck env'
+        run: echo Env MY_NAME= ${{ env.MY_NAME }}
