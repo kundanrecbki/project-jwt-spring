@@ -19,7 +19,7 @@ on:
       buildNumber:
         description: 'Enter Build Number'
         required: true 
-        type: string
+        type: number
 jobs:
   print-tag:
     runs-on: ubuntu-latest
