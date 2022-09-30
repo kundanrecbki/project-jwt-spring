@@ -1,66 +1,74 @@
-name: Build and Publish Docker Image
-
+name: Deploy to Upstream Environment
 on:
   push:
-    branches: [ main, dev ]
-  pull_request:
-    branches: [ main, dev, test ]
+    branches:
+      - main
+      - dev
+  pull_request_target:
+    types: [assigned, opened, edited synchronize, reopened]
+    branches: [main, dev]
+    
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: 'Log level'
+      envSelection:
+        description: 'Select Environment to Deploy'
+        default: 'Select from the List'
         required: true
-        default: 'warning' 
         type: choice
         options:
-        - info
-        - warning
-        - debug 
-      print_tags:
-        description: 'True to print to STDOUT'
-        required: true 
-        type: boolean 
-      tags:
-        description: 'Test scenario tags'
+        - 'Select from the List'
+        - 'Deploy To TST'
+        - 'Deploy To ACC'
+        - 'Deploy To PRD' 
+      envName:
+        description: 'Enter env name manually (tst / acc / prd)'
         required: true 
         type: string
-      environment:
-        description: 'Environment to run tests against'
-        type: environment
+      buildNumber:
+        description: 'Enter Build Number'
         required: true 
+        type: number
 env:
-  IMAGE_NAME: 'project-jwt-spring'
-  DOCKER_REGISTRY: 'kundanrecbki'
+  MY_NAME: 'Kundan'
 jobs:
-  build:
+  print-tag:
+    runs-on: ubuntu-latest
+    if: false #inputs.envSelection != 'Select from the List'
+    steps:
+      - name: Values entered= ${{ inputs.envName }}
+        run: |
+             echo Env to deploy=  ${{ inputs.envSelection }} 
+             echo Env to deploy= ${{ inputs.envName }} 
+             echo Build No= ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To TST' }} 
+      - if: inputs.envSelection == 'Deploy To TST' && inputs.envName == 'tst' 
+        name: Print the input to STDOUT
+        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To TST' }} 
+      - if: inputs.envSelection == 'Deploy To ACC' && inputs.envName == 'acc'
+        env:
+          MY_NAME: 'Kundan-${{ inputs.envName }}'
+        name: Print the input to STDOUT
+        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To ACC' }} 
+      - if: inputs.envSelection == 'Deploy To PRD' && inputs.envName == 'prd' 
+        env:
+          MY_NAME: 'Kundan-${{ inputs.envName }}'
+        name: Print the input to STDOUT
+        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To PRD' }}
+      
+      - name: 'CHeck env'
+        run: |
+             if [ ${{ inputs.envName }}  == 'tst' ]; 
+             then
+               echo It is tst
+             else
+               echo It is anything else
+             fi
+        shell: bash
+        
+  run_if:
+    if:  ${{ contains(github.ref, 'main') ||  contains(github.ref, 'dev') }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-
-    - name: Build with Maven
-      run: mvn clean package -Dmaven.test.skip=true
-    
-    - name: Test Step
-      run: echo "This is empty intentionally"
-
-    - name: Login to Docker Hub
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
-
-    - name: Build and push
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        file: ./Dockerfile
-        push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}.0
+      - run: |
+             echo ${{ github.ref }}
+             echo ${{ github.env }}
+             echo ${{ github.repository }}
