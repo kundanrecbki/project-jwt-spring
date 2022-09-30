@@ -65,7 +65,7 @@ jobs:
         shell: bash
         
   run_if:
-    if:  contains(github.head_ref, 'dev')
+    if:  contains(github.head_ref, 'main')
     runs-on: ubuntu-latest
     steps:
       - run: echo "The head of this PR starts with 'releases/'"
