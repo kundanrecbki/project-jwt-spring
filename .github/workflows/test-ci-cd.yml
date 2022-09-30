@@ -65,7 +65,7 @@ jobs:
         shell: bash
         
   run_if:
-    #if:  contains(github.head_ref, 'main')
+    if:  ${{ contains(github.ref, 'main') ||  contains(github.ref, 'dev') }}
     runs-on: ubuntu-latest
     steps:
       - run: |
