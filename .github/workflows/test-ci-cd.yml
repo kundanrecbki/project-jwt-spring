@@ -5,7 +5,7 @@ on:
       - main
       - dev
   pull_request_target:
-    types: [assigned, opened, edited synchronize, reopened]
+    types: [assigned, opened, edited, synchronize, reopened]
     branches: [main, dev]
     
   workflow_dispatch:
