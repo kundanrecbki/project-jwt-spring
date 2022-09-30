@@ -65,11 +65,13 @@ jobs:
         shell: bash
         
   run_if:
-    if:  ${{ (contains(github.ref, 'main') ||  contains(github.ref, 'dev') ) && true }}
+    if:  ${{ ((github.ref == 'refs/heads/main') ||  (github.ref == 'refs/heads/dev') ) && true }}
     runs-on: ubuntu-latest
     steps:
       - run: |
              echo ${{ github.ref }}
-             echo ${{ github.env }}
-             echo ${{ github.repository }}
+             echo ${{ github.base_ref }}
+             echo ${{ github.event }}
+             echo ${{ github.event_name }}
              echo ${{ github.event.pull_request.merged }}
+             echo ${{ github.event.pull_request_target.merged }}
