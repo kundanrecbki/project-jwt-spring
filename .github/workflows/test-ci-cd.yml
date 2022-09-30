@@ -68,4 +68,6 @@ jobs:
     #if:  contains(github.head_ref, 'main')
     runs-on: ubuntu-latest
     steps:
-      - run: echo "The head of this PR starts with 'releases/'"
+      - run: |
+             echo "github.head_ref" ${{ github.head_ref }}
+             echo "github.env" ${{ github.env }}
