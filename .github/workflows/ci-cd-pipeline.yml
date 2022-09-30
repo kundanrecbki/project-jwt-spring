@@ -33,7 +33,7 @@ env:
 jobs:
   print-tag:
     runs-on: ubuntu-latest
-    if: false #inputs.envSelection != 'Select from the List'
+    if: true #inputs.envSelection != 'Select from the List'
     steps:
       - name: Values entered= ${{ inputs.envName }}
         run: |
