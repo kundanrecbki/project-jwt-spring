@@ -63,7 +63,7 @@ jobs:
         shell: bash
         
   run_if:
-    if:  ${{ ((github.ref == 'refs/heads/main') ||  (github.ref == 'refs/heads/dev') ) && true }}
+    if: github.event_name != 'pull_request_target' && event.pull_request.marged != false
     runs-on: ubuntu-latest
     steps:
       - env:
