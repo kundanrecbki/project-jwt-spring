@@ -61,9 +61,11 @@ jobs:
                echo It is anything else
              fi
         shell: bash
+      - run: |
+          echo "github.event_name != pull_request_target=" ${{ github.event_name != 'pull_request_target' }}
         
   run_if:
-    if:  github.event_name != 'pull_request_target'
+    if:  github.event_name != "pull_request_target"
     runs-on: ubuntu-latest
     steps:
       - env:
