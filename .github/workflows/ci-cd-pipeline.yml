@@ -65,7 +65,7 @@ jobs:
         shell: bash
         
   run_if:
-    if:  ${{ contains(github.ref, 'main') ||  contains(github.ref, 'dev') }}
+    if:  ${{ (contains(github.ref, 'main') ||  contains(github.ref, 'dev') ) && github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
     steps:
       - run: |
