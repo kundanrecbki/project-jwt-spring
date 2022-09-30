@@ -1,7 +1,7 @@
 name: Deploy to Upstream Environment
 on:
-  #push:
-    #branches: [main, dev]
+  push:
+    branches: [main, dev]
   pull_request_target:
     types: [assigned, opened, edited, synchronize, reopened]
     branches: [main, dev]
@@ -66,10 +66,12 @@ jobs:
     if:  ${{ ((github.ref == 'refs/heads/main') ||  (github.ref == 'refs/heads/dev') ) && true }}
     runs-on: ubuntu-latest
     steps:
-      - run: |
+      - env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
              echo "ref=" ${{ github.ref }}
              echo "base_ref=" ${{ github.base_ref }}
              echo "event_name=" ${{ github.event_name }}
              echo "event.pull_request.marged=" ${{ github.event.pull_request.merged }}
              echo "event.pull_request_target.marged=" ${{ github.event.pull_request_target.merged }}
-             echo "event=" ${{ toJson(github) }}
+             echo "$GITHUB_CONTEXT"
