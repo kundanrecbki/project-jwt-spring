@@ -62,11 +62,10 @@ jobs:
              fi
         shell: bash
       - run: |
-           echo ${{ github.event_name != 'pull_request_target' }}
-           echo ${{ github.event.pull_request.marged != false }}
+          echo "event_name comparision value=" ${{ github.event_name != 'pull_request_target' }}
         
   run_if:
-    #if: github.event_name != 'pull_request_target' && github.event.pull_request.marged != false
+    if:  ${{ github.event_name != 'pull_request_target' }}
     runs-on: ubuntu-latest
     steps:
       - env:
@@ -74,7 +73,7 @@ jobs:
         run: |
              echo "ref=" ${{ github.ref }}
              echo "base_ref=" ${{ github.base_ref }}
-             echo "event_name=" ${{ github.event_name }}
+             echo "github event_name=" ${{ github.event_name }}
              echo "event.pull_request.marged=" ${{ github.event.pull_request.merged }}
              echo "event.pull_request_target.marged=" ${{ github.event.pull_request_target.merged }}
              echo "$GITHUB_CONTEXT"
