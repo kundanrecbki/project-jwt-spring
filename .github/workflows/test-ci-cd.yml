@@ -1,5 +1,13 @@
 name: Deploy to Upstream Environment
 on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request_target:
+    types: [assigned, opened, edited synchronize, reopened]
+    branches: [main, dev]
+    
   workflow_dispatch:
     inputs:
       envSelection:
@@ -25,7 +33,7 @@ env:
 jobs:
   print-tag:
     runs-on: ubuntu-latest
-    if: inputs.envSelection != 'Select from the List'
+    if: true #inputs.envSelection != 'Select from the List'
     steps:
       - name: Values entered= ${{ inputs.envName }}
         run: |
@@ -55,3 +63,9 @@ jobs:
                echo It is anything else
              fi
         shell: bash
+        
+  run_if:
+    if:  contains(github.head_ref, 'dev')
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The head of this PR starts with 'releases/'"
