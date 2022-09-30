@@ -69,9 +69,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-             echo ${{ github.ref }}
-             echo ${{ github.base_ref }}
-             echo ${{ github.event }}
-             echo ${{ github.event_name }}
-             echo ${{ github.event.pull_request.merged }}
-             echo ${{ github.event.pull_request_target.merged }}
+             echo "ref=" ${{ github.ref }}
+             echo "base_ref=" ${{ github.base_ref }}
+             echo "event=" ${{ github.event }}
+             echo "event_name=" ${{ github.event_name }}
+             echo "event.pull_request.marged=" ${{ github.event.pull_request.merged }}
+             echo "event.pull_request_target.marged=" ${{ github.event.pull_request_target.merged }}
