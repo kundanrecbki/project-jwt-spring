@@ -63,7 +63,7 @@ jobs:
         shell: bash
         
   run_if:
-    if: github.event_name != 'pull_request_target') && github.event.pull_request.marged != false
+    if: github.event_name != 'pull_request_target' && github.event.pull_request.marged != false
     runs-on: ubuntu-latest
     steps:
       - env:
