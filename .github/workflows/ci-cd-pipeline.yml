@@ -78,7 +78,9 @@ jobs:
              echo "event.pull_request_target.marged=" ${{ github.event.pull_request_target.merged }}
              echo "$GITHUB_CONTEXT"
   check_buildah:
-    runs-on: quay.io/redhat-github-actions/buildah-runner
+    runs-on: ubuntu-latest
+    env:
+      runner_image:  quay.io/redhat-github-actions/buildah-runner
     steps:
       - run: java -version
       - run: mvn -version
