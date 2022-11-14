@@ -31,7 +31,7 @@ env:
 jobs:
   print-tag:
     runs-on: ubuntu-latest
-    if: true #inputs.envSelection != 'Select from the List'
+    if: false #inputs.envSelection != 'Select from the List'
     steps:
       - name: Values entered= ${{ inputs.envName }}
         run: |
@@ -65,7 +65,7 @@ jobs:
           echo "event_name comparision value=" ${{ github.event_name != 'pull_request_target' }}
         
   run_if:
-    if:  ${{ github.event_name != 'pull_request_target' }}
+    if:  false # ${{ github.event_name != 'pull_request_target' }}
     runs-on: ubuntu-latest
     steps:
       - env:
@@ -78,6 +78,7 @@ jobs:
              echo "event.pull_request_target.marged=" ${{ github.event.pull_request_target.merged }}
              echo "$GITHUB_CONTEXT"
   check_buildah:
+    if: false
     runs-on: ubuntu-latest
     env:
       runner_image:  quay.io/redhat-github-actions/buildah-runner
@@ -94,4 +95,18 @@ jobs:
       - run: java -version
       - run: mvn -version
       - run: docker --version
+  check_env-working:
+    runs-on: ubuntu-latest
+    env:
+      my_local_var: blue
+    steps:
+      - id: my_step_id
+        run: |
+          echo "my_local_var=green" >> $GITHUB_ENV
+          echo "same step"
+          echo ${{ env.my_local_var }}
+      - run: |
+          echo "another step"
+          echo ${{ env.my_local_var }}
+    
      
