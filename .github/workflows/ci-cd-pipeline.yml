@@ -102,8 +102,10 @@ jobs:
     steps:
       - id: my_step_id
         run: |
+          my_local_var=black
+          echo $my_local_var
           echo "my_local_var=green" >> $GITHUB_ENV
-          echo "same step"
+          echo "same step from env"
           echo ${{ env.my_local_var }}
       - run: |
           echo "another step"
