@@ -1,10 +1,10 @@
 name: Deploy to Upstream Environment ###############
 on:
-  push:
-    branches: [main, dev]
-  pull_request_target:
-    types: [assigned, opened, edited, synchronize, reopened]
-    branches: [main, dev]
+  #push:
+    #branches: [main, dev]
+  #pull_request_target:
+    #types: [assigned, opened, edited, synchronize, reopened]
+    #branches: [main, dev]
     
   workflow_dispatch:
     inputs:
@@ -101,13 +101,13 @@ jobs:
   check_env-working:
     runs-on: ubuntu-latest
     env:
-      my_local_var: blue
+      my_local_var: ''
     steps:
       - id: my_step_id
         run: |
-          my_local_var=black
+          echo [[ ${{ inputs.envName }} == 'tst' ]] && my_local_var='dev' || my_local_var=${{ inputs.envName }} >> $GITHUB_ENV
           echo $my_local_var
-          echo "my_local_var=green" >> $GITHUB_ENV
+          #echo "my_local_var=green" >> $GITHUB_ENV
           echo "same step from env"
           echo ${{ env.my_local_var }}
       - run: |
