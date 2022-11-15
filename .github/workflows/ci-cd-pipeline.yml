@@ -31,16 +31,19 @@ env:
 jobs:
   print-tag:
     runs-on: ubuntu-latest
-    if: false #inputs.envSelection != 'Select from the List'
+    if: true #inputs.envSelection != 'Select from the List'
     steps:
       - name: Values entered= ${{ inputs.envName }}
         run: |
              echo Env to deploy=  ${{ inputs.envSelection }} 
              echo Env to deploy= ${{ inputs.envName }} 
              echo Build No= ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To TST' }} 
+             echo "inputs.envName=dev" >> $GITHUB_ENV
       - if: inputs.envSelection == 'Deploy To TST' && inputs.envName == 'tst' 
         name: Print the input to STDOUT
-        run: echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To TST' }} 
+        run: |
+          echo ${{ inputs.envName }}
+          echo  The values entered are  ${{ inputs.envSelection }} , ${{ inputs.envName }} , ${{ inputs.buildNumber }}, ${{ inputs.envSelection == 'Deploy To TST' }} 
       - if: inputs.envSelection == 'Deploy To ACC' && inputs.envName == 'acc'
         env:
           MY_NAME: 'Kundan-${{ inputs.envName }}'
