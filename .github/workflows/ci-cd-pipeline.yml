@@ -105,9 +105,9 @@ jobs:
     steps:
       - id: my_step_id
         run: |
-          echo [[ ${{ inputs.envName }} == 'tst' ]] && my_local_var='dev' || my_local_var=${{ inputs.envName }} >> $GITHUB_ENV
+          [[ ${{ inputs.envName }} == 'tst' ]] && my_local_var='dev' || my_local_var=${{ inputs.envName }}
           echo $my_local_var
-          #echo "my_local_var=green" >> $GITHUB_ENV
+          echo "my_local_var=$my_local_var" >> $GITHUB_ENV
           echo "same step from env"
           echo ${{ env.my_local_var }}
       - run: |
